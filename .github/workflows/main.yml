@@ -16,10 +16,13 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps: 
+    steps:
       - uses: actions/checkout@v2
-      - run: |
-          python fetch.py
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+          architecture: x64
+      - run: python fetch.py
       - uses: actions/upload-artifact@v2
         with:
           name: upload-json
