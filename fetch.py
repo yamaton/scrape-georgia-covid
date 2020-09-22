@@ -32,7 +32,7 @@ As of 2020-09-15, 23 JSON strings are embedded in the JavaScript code.
 20 ... current totals by ethnicity, race, sex, and comorbidity
 21 ... current case count by binary comorbidity (Yes/No/Unknown)
 22 ... current test counts (pcr and antibody)
-
+23 ... lab testing summary (added since 2020-09-22)
 """
 
 import urllib.request
@@ -66,6 +66,7 @@ FILENAME = [
     "cases_tally",
     "comorbidity_total",
     "current_status_tests",
+    "lab_testing_summary",
 ]
 
 SAVE_DIR = "artifacts"
@@ -87,11 +88,9 @@ def run(url=URL, prefix=""):
         js_text = response.read().decode("utf-8")
         gen = extract_json(js_text)
         for i, s in enumerate(gen):
-            # name = f"{i:02d}"
-            name = FILENAME[i]
+            name = FILENAME[i] if i < len(FILENAME) else f"{i:02d}"
             path = path_root / f"{prefix}{name}.json"
             with open(path, "w") as f:
-                p = SAVE_DIR
                 print(s, file=f)
 
 
